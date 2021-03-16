@@ -17,7 +17,8 @@ def plot_diagrams(
     lifetime=False,
     legend=True,
     show=False,
-    ax=None
+    ax=None,
+    alphas=None
 ):
     """A helper function to plot persistence diagrams. 
 
@@ -60,6 +61,7 @@ def plot_diagrams(
     show: bool, default is False
         Call plt.show() after plotting. If you are using self.plot() as part 
         of a subplot, set show=False and call plt.show() only once at the end.
+    alphas: List of floats for alpha value for the persistence diagram at that index.
     """
 
     ax = ax or plt.gca()
@@ -129,6 +131,9 @@ def plot_diagrams(
         # plot horizon line
         ax.plot([x_down, x_up], [0, 0], c=ax_color)
 
+    if alphas is None:
+        alphas = [1 for _ in diagrams]
+
     # Plot diagonal
     if diagonal:
         ax.plot([x_down, x_up], [x_down, x_up], "--", c=ax_color)
@@ -144,10 +149,10 @@ def plot_diagrams(
             dgm[np.isinf(dgm)] = b_inf
 
     # Plot each diagram
-    for dgm, label in zip(diagrams, labels):
+    for dgm, label, alpha in zip(diagrams, labels, alphas):
 
         # plot persistence pairs
-        ax.scatter(dgm[:, 0], dgm[:, 1], size, label=label, edgecolor="none")
+        ax.scatter(dgm[:, 0], dgm[:, 1], size, label=label, edgecolor="none", alpha=alpha)
 
         ax.set_xlabel(xlabel)
         ax.set_ylabel(ylabel)
