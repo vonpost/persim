@@ -169,6 +169,7 @@ def plot_diagrams(
 
     if show is True:
         plt.show()
+    return ax
 
 def plot_a_bar(p, q, c='b', linestyle='-'):
     plt.plot([p[0], q[0]], [p[1], q[1]], c=c, linestyle=linestyle, linewidth=1)
